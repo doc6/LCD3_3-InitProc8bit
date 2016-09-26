@@ -1,0 +1,386 @@
+
+LCD3_3-InitProc.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  0000031a  0000038e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000031a  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000011  00000000  00000000  0000038e  2**0
+                  CONTENTS, READONLY
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   8:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+  74:	0e 94 73 01 	call	0x2e6	; 0x2e6 <main>
+  78:	0c 94 8b 01 	jmp	0x316	; 0x316 <_exit>
+
+0000007c <__bad_interrupt>:
+  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000080 <LCD_checkBusy>:
+  80:	37 b1       	in	r19, 0x07	; 7
+  82:	2a b1       	in	r18, 0x0a	; 10
+  84:	87 b1       	in	r24, 0x07	; 7
+  86:	88 63       	ori	r24, 0x38	; 56
+  88:	87 b9       	out	0x07, r24	; 7
+  8a:	43 98       	cbi	0x08, 3	; 8
+  8c:	45 98       	cbi	0x08, 5	; 8
+  8e:	44 9a       	sbi	0x08, 4	; 8
+  90:	43 9a       	sbi	0x08, 3	; 8
+  92:	57 98       	cbi	0x0a, 7	; 10
+  94:	02 c0       	rjmp	.+4      	; 0x9a <LCD_checkBusy+0x1a>
+  96:	43 98       	cbi	0x08, 3	; 8
+  98:	43 9a       	sbi	0x08, 3	; 8
+  9a:	4f 99       	sbic	0x09, 7	; 9
+  9c:	fc cf       	rjmp	.-8      	; 0x96 <LCD_checkBusy+0x16>
+  9e:	84 e0       	ldi	r24, 0x04	; 4
+  a0:	90 e0       	ldi	r25, 0x00	; 0
+  a2:	01 97       	sbiw	r24, 0x01	; 1
+  a4:	f1 f7       	brne	.-4      	; 0xa2 <LCD_checkBusy+0x22>
+  a6:	37 b9       	out	0x07, r19	; 7
+  a8:	2a b9       	out	0x0a, r18	; 10
+  aa:	08 95       	ret
+
+000000ac <LCD_writeInstruction>:
+  ac:	cf 93       	push	r28
+  ae:	df 93       	push	r29
+  b0:	d7 b1       	in	r29, 0x07	; 7
+  b2:	ca b1       	in	r28, 0x0a	; 10
+  b4:	9f ef       	ldi	r25, 0xFF	; 255
+  b6:	97 b9       	out	0x07, r25	; 7
+  b8:	9a b9       	out	0x0a, r25	; 10
+  ba:	43 98       	cbi	0x08, 3	; 8
+  bc:	8b b9       	out	0x0b, r24	; 11
+  be:	45 98       	cbi	0x08, 5	; 8
+  c0:	44 98       	cbi	0x08, 4	; 8
+  c2:	43 9a       	sbi	0x08, 3	; 8
+  c4:	0e 94 40 00 	call	0x80	; 0x80 <LCD_checkBusy>
+  c8:	d7 b9       	out	0x07, r29	; 7
+  ca:	ca b9       	out	0x0a, r28	; 10
+  cc:	df 91       	pop	r29
+  ce:	cf 91       	pop	r28
+  d0:	08 95       	ret
+
+000000d2 <LCD_writeInstruction4bit>:
+  d2:	47 b1       	in	r20, 0x07	; 7
+  d4:	3a b1       	in	r19, 0x0a	; 10
+  d6:	2f ef       	ldi	r18, 0xFF	; 255
+  d8:	27 b9       	out	0x07, r18	; 7
+  da:	2a b9       	out	0x0a, r18	; 10
+  dc:	45 98       	cbi	0x08, 5	; 8
+  de:	44 98       	cbi	0x08, 4	; 8
+  e0:	43 98       	cbi	0x08, 3	; 8
+  e2:	80 6f       	ori	r24, 0xF0	; 240
+  e4:	9f 6f       	ori	r25, 0xFF	; 255
+  e6:	8b b9       	out	0x0b, r24	; 11
+  e8:	43 9a       	sbi	0x08, 3	; 8
+  ea:	80 e6       	ldi	r24, 0x60	; 96
+  ec:	99 e0       	ldi	r25, 0x09	; 9
+  ee:	fc 01       	movw	r30, r24
+  f0:	31 97       	sbiw	r30, 0x01	; 1
+  f2:	f1 f7       	brne	.-4      	; 0xf0 <LCD_writeInstruction4bit+0x1e>
+  f4:	43 98       	cbi	0x08, 3	; 8
+  f6:	20 ef       	ldi	r18, 0xF0	; 240
+  f8:	2b b9       	out	0x0b, r18	; 11
+  fa:	43 9a       	sbi	0x08, 3	; 8
+  fc:	01 97       	sbiw	r24, 0x01	; 1
+  fe:	f1 f7       	brne	.-4      	; 0xfc <LCD_writeInstruction4bit+0x2a>
+ 100:	47 b9       	out	0x07, r20	; 7
+ 102:	3a b9       	out	0x0a, r19	; 10
+ 104:	08 95       	ret
+
+00000106 <LCD_writeToDDRAM>:
+ 106:	1f 93       	push	r17
+ 108:	cf 93       	push	r28
+ 10a:	df 93       	push	r29
+ 10c:	c8 2f       	mov	r28, r24
+ 10e:	17 b1       	in	r17, 0x07	; 7
+ 110:	da b1       	in	r29, 0x0a	; 10
+ 112:	9f ef       	ldi	r25, 0xFF	; 255
+ 114:	97 b9       	out	0x07, r25	; 7
+ 116:	9a b9       	out	0x0a, r25	; 10
+ 118:	cb 01       	movw	r24, r22
+ 11a:	80 68       	ori	r24, 0x80	; 128
+ 11c:	0e 94 56 00 	call	0xac	; 0xac <LCD_writeInstruction>
+ 120:	43 98       	cbi	0x08, 3	; 8
+ 122:	cb b9       	out	0x0b, r28	; 11
+ 124:	45 9a       	sbi	0x08, 5	; 8
+ 126:	44 98       	cbi	0x08, 4	; 8
+ 128:	43 9a       	sbi	0x08, 3	; 8
+ 12a:	0e 94 40 00 	call	0x80	; 0x80 <LCD_checkBusy>
+ 12e:	17 b9       	out	0x07, r17	; 7
+ 130:	da b9       	out	0x0a, r29	; 10
+ 132:	df 91       	pop	r29
+ 134:	cf 91       	pop	r28
+ 136:	1f 91       	pop	r17
+ 138:	08 95       	ret
+
+0000013a <LCD_writeToDDRAM4bit>:
+ 13a:	ef 92       	push	r14
+ 13c:	ff 92       	push	r15
+ 13e:	cf 93       	push	r28
+ 140:	df 93       	push	r29
+ 142:	7c 01       	movw	r14, r24
+ 144:	d7 b1       	in	r29, 0x07	; 7
+ 146:	ca b1       	in	r28, 0x0a	; 10
+ 148:	8f ef       	ldi	r24, 0xFF	; 255
+ 14a:	87 b9       	out	0x07, r24	; 7
+ 14c:	8a b9       	out	0x0a, r24	; 10
+ 14e:	cb 01       	movw	r24, r22
+ 150:	80 68       	ori	r24, 0x80	; 128
+ 152:	0e 94 69 00 	call	0xd2	; 0xd2 <LCD_writeInstruction4bit>
+ 156:	45 9a       	sbi	0x08, 5	; 8
+ 158:	44 98       	cbi	0x08, 4	; 8
+ 15a:	43 98       	cbi	0x08, 3	; 8
+ 15c:	80 ef       	ldi	r24, 0xF0	; 240
+ 15e:	e8 2a       	or	r14, r24
+ 160:	ff 24       	eor	r15, r15
+ 162:	fa 94       	dec	r15
+ 164:	eb b8       	out	0x0b, r14	; 11
+ 166:	43 9a       	sbi	0x08, 3	; 8
+ 168:	80 e6       	ldi	r24, 0x60	; 96
+ 16a:	99 e0       	ldi	r25, 0x09	; 9
+ 16c:	01 97       	sbiw	r24, 0x01	; 1
+ 16e:	f1 f7       	brne	.-4      	; 0x16c <LCD_writeToDDRAM4bit+0x32>
+ 170:	43 98       	cbi	0x08, 3	; 8
+ 172:	80 ef       	ldi	r24, 0xF0	; 240
+ 174:	8b b9       	out	0x0b, r24	; 11
+ 176:	43 9a       	sbi	0x08, 3	; 8
+ 178:	d7 b9       	out	0x07, r29	; 7
+ 17a:	ca b9       	out	0x0a, r28	; 10
+ 17c:	df 91       	pop	r29
+ 17e:	cf 91       	pop	r28
+ 180:	ff 90       	pop	r15
+ 182:	ef 90       	pop	r14
+ 184:	08 95       	ret
+
+00000186 <my_lcd_init>:
+ 186:	cf 92       	push	r12
+ 188:	df 92       	push	r13
+ 18a:	ef 92       	push	r14
+ 18c:	ff 92       	push	r15
+ 18e:	7c 01       	movw	r14, r24
+ 190:	8f ef       	ldi	r24, 0xFF	; 255
+ 192:	87 b9       	out	0x07, r24	; 7
+ 194:	8a b9       	out	0x0a, r24	; 10
+ 196:	2f e7       	ldi	r18, 0x7F	; 127
+ 198:	82 e3       	ldi	r24, 0x32	; 50
+ 19a:	92 e0       	ldi	r25, 0x02	; 2
+ 19c:	21 50       	subi	r18, 0x01	; 1
+ 19e:	80 40       	sbci	r24, 0x00	; 0
+ 1a0:	90 40       	sbci	r25, 0x00	; 0
+ 1a2:	e1 f7       	brne	.-8      	; 0x19c <my_lcd_init+0x16>
+ 1a4:	00 c0       	rjmp	.+0      	; 0x1a6 <my_lcd_init+0x20>
+ 1a6:	00 00       	nop
+ 1a8:	80 e3       	ldi	r24, 0x30	; 48
+ 1aa:	90 e0       	ldi	r25, 0x00	; 0
+ 1ac:	0e 94 56 00 	call	0xac	; 0xac <LCD_writeInstruction>
+ 1b0:	80 e1       	ldi	r24, 0x10	; 16
+ 1b2:	90 e4       	ldi	r25, 0x40	; 64
+ 1b4:	01 97       	sbiw	r24, 0x01	; 1
+ 1b6:	f1 f7       	brne	.-4      	; 0x1b4 <my_lcd_init+0x2e>
+ 1b8:	80 e3       	ldi	r24, 0x30	; 48
+ 1ba:	90 e0       	ldi	r25, 0x00	; 0
+ 1bc:	0e 94 56 00 	call	0xac	; 0xac <LCD_writeInstruction>
+ 1c0:	80 e9       	ldi	r24, 0x90	; 144
+ 1c2:	c8 2e       	mov	r12, r24
+ 1c4:	dd 24       	eor	r13, r13
+ 1c6:	d3 94       	inc	r13
+ 1c8:	c6 01       	movw	r24, r12
+ 1ca:	01 97       	sbiw	r24, 0x01	; 1
+ 1cc:	f1 f7       	brne	.-4      	; 0x1ca <my_lcd_init+0x44>
+ 1ce:	80 e3       	ldi	r24, 0x30	; 48
+ 1d0:	90 e0       	ldi	r25, 0x00	; 0
+ 1d2:	0e 94 56 00 	call	0xac	; 0xac <LCD_writeInstruction>
+ 1d6:	c6 01       	movw	r24, r12
+ 1d8:	01 97       	sbiw	r24, 0x01	; 1
+ 1da:	f1 f7       	brne	.-4      	; 0x1d8 <my_lcd_init+0x52>
+ 1dc:	28 e0       	ldi	r18, 0x08	; 8
+ 1de:	e2 16       	cp	r14, r18
+ 1e0:	f1 04       	cpc	r15, r1
+ 1e2:	c1 f4       	brne	.+48     	; 0x214 <my_lcd_init+0x8e>
+ 1e4:	88 e3       	ldi	r24, 0x38	; 56
+ 1e6:	90 e0       	ldi	r25, 0x00	; 0
+ 1e8:	0e 94 56 00 	call	0xac	; 0xac <LCD_writeInstruction>
+ 1ec:	88 e0       	ldi	r24, 0x08	; 8
+ 1ee:	90 e0       	ldi	r25, 0x00	; 0
+ 1f0:	0e 94 56 00 	call	0xac	; 0xac <LCD_writeInstruction>
+ 1f4:	81 e0       	ldi	r24, 0x01	; 1
+ 1f6:	90 e0       	ldi	r25, 0x00	; 0
+ 1f8:	0e 94 56 00 	call	0xac	; 0xac <LCD_writeInstruction>
+ 1fc:	86 e0       	ldi	r24, 0x06	; 6
+ 1fe:	90 e0       	ldi	r25, 0x00	; 0
+ 200:	0e 94 56 00 	call	0xac	; 0xac <LCD_writeInstruction>
+ 204:	8c e0       	ldi	r24, 0x0C	; 12
+ 206:	90 e0       	ldi	r25, 0x00	; 0
+ 208:	ff 90       	pop	r15
+ 20a:	ef 90       	pop	r14
+ 20c:	df 90       	pop	r13
+ 20e:	cf 90       	pop	r12
+ 210:	0c 94 56 00 	jmp	0xac	; 0xac <LCD_writeInstruction>
+ 214:	84 e0       	ldi	r24, 0x04	; 4
+ 216:	e8 16       	cp	r14, r24
+ 218:	f1 04       	cpc	r15, r1
+ 21a:	01 f5       	brne	.+64     	; 0x25c <my_lcd_init+0xd6>
+ 21c:	43 98       	cbi	0x08, 3	; 8
+ 21e:	80 e2       	ldi	r24, 0x20	; 32
+ 220:	8b b9       	out	0x0b, r24	; 11
+ 222:	43 9a       	sbi	0x08, 3	; 8
+ 224:	80 e6       	ldi	r24, 0x60	; 96
+ 226:	99 e0       	ldi	r25, 0x09	; 9
+ 228:	01 97       	sbiw	r24, 0x01	; 1
+ 22a:	f1 f7       	brne	.-4      	; 0x228 <my_lcd_init+0xa2>
+ 22c:	88 e3       	ldi	r24, 0x38	; 56
+ 22e:	90 e0       	ldi	r25, 0x00	; 0
+ 230:	0e 94 56 00 	call	0xac	; 0xac <LCD_writeInstruction>
+ 234:	88 e0       	ldi	r24, 0x08	; 8
+ 236:	90 e0       	ldi	r25, 0x00	; 0
+ 238:	0e 94 69 00 	call	0xd2	; 0xd2 <LCD_writeInstruction4bit>
+ 23c:	81 e0       	ldi	r24, 0x01	; 1
+ 23e:	90 e0       	ldi	r25, 0x00	; 0
+ 240:	0e 94 69 00 	call	0xd2	; 0xd2 <LCD_writeInstruction4bit>
+ 244:	86 e0       	ldi	r24, 0x06	; 6
+ 246:	90 e0       	ldi	r25, 0x00	; 0
+ 248:	0e 94 69 00 	call	0xd2	; 0xd2 <LCD_writeInstruction4bit>
+ 24c:	8c e0       	ldi	r24, 0x0C	; 12
+ 24e:	90 e0       	ldi	r25, 0x00	; 0
+ 250:	ff 90       	pop	r15
+ 252:	ef 90       	pop	r14
+ 254:	df 90       	pop	r13
+ 256:	cf 90       	pop	r12
+ 258:	0c 94 69 00 	jmp	0xd2	; 0xd2 <LCD_writeInstruction4bit>
+ 25c:	ff 90       	pop	r15
+ 25e:	ef 90       	pop	r14
+ 260:	df 90       	pop	r13
+ 262:	cf 90       	pop	r12
+ 264:	08 95       	ret
+
+00000266 <my_lcd_clear>:
+ 266:	81 e0       	ldi	r24, 0x01	; 1
+ 268:	90 e0       	ldi	r25, 0x00	; 0
+ 26a:	0c 94 56 00 	jmp	0xac	; 0xac <LCD_writeInstruction>
+
+0000026e <my_lcd_display>:
+ 26e:	af 92       	push	r10
+ 270:	bf 92       	push	r11
+ 272:	cf 92       	push	r12
+ 274:	df 92       	push	r13
+ 276:	ef 92       	push	r14
+ 278:	ff 92       	push	r15
+ 27a:	5c 01       	movw	r10, r24
+ 27c:	0e 94 33 01 	call	0x266	; 0x266 <my_lcd_clear>
+ 280:	e1 2c       	mov	r14, r1
+ 282:	f1 2c       	mov	r15, r1
+ 284:	c1 2c       	mov	r12, r1
+ 286:	d1 2c       	mov	r13, r1
+ 288:	21 c0       	rjmp	.+66     	; 0x2cc <my_lcd_display+0x5e>
+ 28a:	90 e1       	ldi	r25, 0x10	; 16
+ 28c:	e9 16       	cp	r14, r25
+ 28e:	f1 04       	cpc	r15, r1
+ 290:	19 f4       	brne	.+6      	; 0x298 <my_lcd_display+0x2a>
+ 292:	20 e4       	ldi	r18, 0x40	; 64
+ 294:	c2 2e       	mov	r12, r18
+ 296:	d1 2c       	mov	r13, r1
+ 298:	8a 30       	cpi	r24, 0x0A	; 10
+ 29a:	31 f4       	brne	.+12     	; 0x2a8 <my_lcd_display+0x3a>
+ 29c:	8f ef       	ldi	r24, 0xFF	; 255
+ 29e:	e8 1a       	sub	r14, r24
+ 2a0:	f8 0a       	sbc	r15, r24
+ 2a2:	90 e4       	ldi	r25, 0x40	; 64
+ 2a4:	c9 2e       	mov	r12, r25
+ 2a6:	d1 2c       	mov	r13, r1
+ 2a8:	f5 01       	movw	r30, r10
+ 2aa:	ee 0d       	add	r30, r14
+ 2ac:	ff 1d       	adc	r31, r15
+ 2ae:	b6 01       	movw	r22, r12
+ 2b0:	80 81       	ld	r24, Z
+ 2b2:	90 e0       	ldi	r25, 0x00	; 0
+ 2b4:	0e 94 83 00 	call	0x106	; 0x106 <LCD_writeToDDRAM>
+ 2b8:	9f ef       	ldi	r25, 0xFF	; 255
+ 2ba:	e9 1a       	sub	r14, r25
+ 2bc:	f9 0a       	sbc	r15, r25
+ 2be:	8f ef       	ldi	r24, 0xFF	; 255
+ 2c0:	c8 1a       	sub	r12, r24
+ 2c2:	d8 0a       	sbc	r13, r24
+ 2c4:	90 e2       	ldi	r25, 0x20	; 32
+ 2c6:	e9 16       	cp	r14, r25
+ 2c8:	f1 04       	cpc	r15, r1
+ 2ca:	34 f4       	brge	.+12     	; 0x2d8 <my_lcd_display+0x6a>
+ 2cc:	f5 01       	movw	r30, r10
+ 2ce:	ee 0d       	add	r30, r14
+ 2d0:	ff 1d       	adc	r31, r15
+ 2d2:	80 81       	ld	r24, Z
+ 2d4:	81 11       	cpse	r24, r1
+ 2d6:	d9 cf       	rjmp	.-78     	; 0x28a <my_lcd_display+0x1c>
+ 2d8:	ff 90       	pop	r15
+ 2da:	ef 90       	pop	r14
+ 2dc:	df 90       	pop	r13
+ 2de:	cf 90       	pop	r12
+ 2e0:	bf 90       	pop	r11
+ 2e2:	af 90       	pop	r10
+ 2e4:	08 95       	ret
+
+000002e6 <main>:
+ 2e6:	84 e0       	ldi	r24, 0x04	; 4
+ 2e8:	90 e0       	ldi	r25, 0x00	; 0
+ 2ea:	0e 94 c3 00 	call	0x186	; 0x186 <my_lcd_init>
+ 2ee:	81 e0       	ldi	r24, 0x01	; 1
+ 2f0:	90 e0       	ldi	r25, 0x00	; 0
+ 2f2:	0e 94 69 00 	call	0xd2	; 0xd2 <LCD_writeInstruction4bit>
+ 2f6:	60 e0       	ldi	r22, 0x00	; 0
+ 2f8:	70 e0       	ldi	r23, 0x00	; 0
+ 2fa:	81 e4       	ldi	r24, 0x41	; 65
+ 2fc:	90 e0       	ldi	r25, 0x00	; 0
+ 2fe:	0e 94 9d 00 	call	0x13a	; 0x13a <LCD_writeToDDRAM4bit>
+ 302:	2f ef       	ldi	r18, 0xFF	; 255
+ 304:	89 e6       	ldi	r24, 0x69	; 105
+ 306:	98 e1       	ldi	r25, 0x18	; 24
+ 308:	21 50       	subi	r18, 0x01	; 1
+ 30a:	80 40       	sbci	r24, 0x00	; 0
+ 30c:	90 40       	sbci	r25, 0x00	; 0
+ 30e:	e1 f7       	brne	.-8      	; 0x308 <main+0x22>
+ 310:	00 c0       	rjmp	.+0      	; 0x312 <main+0x2c>
+ 312:	00 00       	nop
+ 314:	ec cf       	rjmp	.-40     	; 0x2ee <main+0x8>
+
+00000316 <_exit>:
+ 316:	f8 94       	cli
+
+00000318 <__stop_program>:
+ 318:	ff cf       	rjmp	.-2      	; 0x318 <__stop_program>
